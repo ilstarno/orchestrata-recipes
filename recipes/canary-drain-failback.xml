@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="canary-drain-failback">
+  <title>Review canary changes, draining, and return to service</title>
+  <scenario>A release owner is deciding whether to increase a canary share, hold it, recommend draining a target, or restore a recovered target. Compare observed performance with operator-approved limits and check the capacity of the proposed fallback. No routing, connection, or deployment change is performed.</scenario>
+  <inputs>
+    <field name="change-window-utc" type="string-list" required="true">
+      <description>UTC review period, snapshot timestamp, and current configuration revision. Missing revision, incomplete coverage, future-dated samples, or inconsistent clocks require operator review.</description>
+    </field>
+    <field name="current-stage" type="string" required="true">
+      <description>Current operator-reported stage: observing-canary, draining, or validating-recovery. Use the reported state, not the desired next state, when checking constraints.</description>
+    </field>
+    <field name="candidate-traffic-steps" type="integer-list" required="true">
+      <description>Allowed progression steps for new traffic expressed in basis points (100 basis points equal one percentage point). Keep existing flows and DNS caches separate from the proposed new-traffic share.</description>
+    </field>
+    <field name="health-and-slo-observations" type="string-list" required="true">
+      <description>Rows of stable and canary cohort IDs, sample time, status, request count, error rate, and latency percentile with units. Missing or sparse observations do not establish readiness; compare the cohorts over the approved window.</description>
+    </field>
+    <field name="guardrail-limits" type="string-list" required="true">
+      <description>Operator-approved limits for health freshness, minimum sample count, maximum error rate and latency, minimum reserve on fallback, and consecutive healthy observation windows before failback.</description>
+    </field>
+    <field name="fallback-capacity" type="string-list" required="true">
+      <description>Rows of eligible fallback targets, existing load, remaining safe capacity, and observation timestamp. Do not treat a rollback or drain as viable if remaining targets cannot absorb the proposed new traffic.</description>
+    </field>
+    <field name="in-flight-work" type="string-list" required="true">
+      <description>Rows of target, active connections or streams, expected drain window and freshness. Draining can stop new placement without ending current work; unknown connection counts or overdue sessions need an operator decision.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="advisory-action" type="string" required="true">
+      <description>Return hold, recommend-next-step, recommend-drain, or recommend-failback. A known regression may justify proposing drain if fallback fits. Without current evidence or capacity, return hold with escalation rather than treating a missing signal as success.</description>
+    </field>
+    <field name="guardrail-evidence" type="string-list" required="true">
+      <description>Expected threshold, observed value and unit, sample time, and pass/fail/unknown for each gate. Include recent stable observation windows before recommending failback; healthy probes alone do not establish acceptable request performance.</description>
+    </field>
+    <field name="operator-handoff" type="string-list" required="true">
+      <description>List remaining conflicts, the smallest suggested traffic change, what to confirm about active sessions, and what would require reverting. Proposal only; any platform or production change is outside this recipe.</description>
+    </field>
+  </outputs>
+</recipe>

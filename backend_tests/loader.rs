@@ -132,3 +132,26 @@ fn loads_hiring_operations_recipes_as_version_one_contracts() {
         assert!(!recipe.outputs().is_empty());
     }
 }
+
+#[test]
+fn loads_traffic_planning_recipes_as_version_one_contracts() {
+    for (id, xml) in [
+        (
+            "dns-regional-steering",
+            include_str!("../recipes/dns-regional-steering.xml"),
+        ),
+        (
+            "backend-capacity-placement",
+            include_str!("../recipes/backend-capacity-placement.xml"),
+        ),
+        (
+            "canary-drain-failback",
+            include_str!("../recipes/canary-drain-failback.xml"),
+        ),
+    ] {
+        let recipe = load_recipe(xml).unwrap_or_else(|err| panic!("{id}: {err:?}"));
+        assert_eq!(recipe.id(), id);
+        assert!(!recipe.inputs().is_empty());
+        assert!(!recipe.outputs().is_empty());
+    }
+}

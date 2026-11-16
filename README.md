@@ -13,3 +13,6 @@ The [fleet workloads](recipes/benchmarks/README.md) generate inputs only. They d
 
 For interview scheduling, interviewer absence recovery, and recruiting
 coordinator handoffs, see [Hiring operations recipes](docs/hiring-operations.md).
+
+For advisory DNS steering, backend allocation, and rollout gates, see
+[Traffic planning recipes](docs/traffic-planning.md).

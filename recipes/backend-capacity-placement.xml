@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="backend-capacity-placement">
+  <title>Place new traffic within healthy backend capacity</title>
+  <scenario>A service owner needs to fit traffic across healthy backends without exhausting headroom or moving existing connections. Use approved locality, compatible services, and observed capacity. Leave any excess demand in the review report instead of overflowing a backend or silently crossing an operating boundary.</scenario>
+  <inputs>
+    <field name="snapshot-time-utc" type="string" required="true">
+      <description>UTC planning reference for the read-only health and capacity snapshot. A stale or inconsistent input must not be treated as current capacity.</description>
+    </field>
+    <field name="workload-cohorts" type="string-list" required="true">
+      <description>Rows of opaque cohort ID, demand in requests per second, approved route class, and locality bounds. Use an operation or workload class, not individual addresses, credentials, or customer identifiers.</description>
+    </field>
+    <field name="regional-edge-health" type="string-list" required="true">
+      <description>Rows of edge region, readiness state, and UTC observation time. A region with no accepting edge places no new arrivals, even if individual backend observations still look healthy.</description>
+    </field>
+    <field name="backend-capacity" type="string-list" required="true">
+      <description>Rows of backend ID, zone, compatible route class, estimated capacity in requests per second, committed load, and required reserve. New capacity may not exceed capacity minus committed load and reserve.</description>
+    </field>
+    <field name="readiness-observations" type="string-list" required="true">
+      <description>Rows of backend ID, UTC sample observation time, readiness state, and traffic-admission state (accepting, warming, draining, or unavailable). Existing connections on a draining backend may remain; no new traffic goes there.</description>
+    </field>
+    <field name="max-health-age-seconds" type="integer" required="true">
+      <description>Maximum freshness age for readiness observations. Treat a missing, stale, or future-dated observation as unknown, not healthy.</description>
+    </field>
+    <field name="affinity-reservations" type="string-list" required="false">
+      <description>Reserved load for existing connections that cannot move in this planning window. Count each reservation exactly once, within committed load, not again as new demand.</description>
+    </field>
+    <field name="service-limits" type="string-list" required="false">
+      <description>Approved placement bounds by route class, such as zone limits or independent capacity in concurrent connections. Apply these independently; do not convert connection limits to requests per second without a verified model.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="proposed-placement" type="string-list" required="true">
+      <description>Rows of cohort ID, backend ID, and proposed new requests per second. Place up to the smaller of demand and eligible capacity, then split proportionally to usable capacity with stable largest-remainder rounding. Never move affinity reservations by implication.</description>
+    </field>
+    <field name="backend-headroom" type="string-list" required="true">
+      <description>Show capacity, committed load, reserve, new placement, and remaining headroom by backend. Totals are a model, not real load-balancer telemetry.</description>
+    </field>
+    <field name="unplaced-demand" type="string-list" required="true">
+      <description>Report remaining cohort demand and why it did not fit: capacity, route incompatibility, locality, waiting for fresh health, or another unmet constraint. Return the proposal for operator review; do not update routing or drop requests.</description>
+    </field>
+  </outputs>
+</recipe>

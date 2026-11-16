@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="dns-regional-steering">
+  <title>Compare weighted DNS options across healthy regions</title>
+  <scenario>A service owner wants to absorb a regional outage or shift demand before a release. Compare weighted DNS options from a read-only snapshot. Respect the market allowlist, configured priority tiers, and fresh regional health. Show what might happen while cached answers are still in use. Return a proposal for review, never a DNS update.</scenario>
+  <inputs>
+    <field name="snapshot-time-utc" type="string" required="true">
+      <description>UTC observation time shared by the demand, health, and capacity inputs. Supply actual observation times for each input so freshness can be checked against this reference.</description>
+    </field>
+    <field name="regional-demand-rps" type="string-list" required="false">
+      <description>Rows of approved client region, expected application requests per second, and observation timestamp. Demand is a workload estimate, not a count of authoritative DNS queries.</description>
+    </field>
+    <field name="eligible-endpoints" type="string-list" required="true">
+      <description>Rows of client region and opaque endpoint ID allowed by the service owner's routing and data locality policy. A missing mapping is not permission to send requests elsewhere.</description>
+    </field>
+    <field name="endpoint-headroom-rps" type="string-list" required="false">
+      <description>Rows of endpoint ID, sustainable available application requests per second after reserves, and capacity observation timestamp. Account for existing workload separately from modeled demand.</description>
+    </field>
+    <field name="regional-priority-tiers" type="string-list" required="true">
+      <description>Rows of market ID, allowed edge region, priority tier, and desired integer share. Select the first tier with eligible regions and normalize shares to 100 within that tier. Do not fall back outside the market allowlist.</description>
+    </field>
+    <field name="regional-fault-domains" type="integer" required="true">
+      <description>Minimum number of distinct healthy backend fault domains required for a region to receive new DNS lookups. Edge health, backend fault domains, and the market allowlist are separate checks.</description>
+    </field>
+    <field name="endpoint-health" type="string-list" required="true">
+      <description>Rows of endpoint ID, state (healthy, down, draining, stale, or unknown), distinct healthy fault domains, and UTC observation time. Missing health or health older than the configured limit is not eligible for a recommendation.</description>
+    </field>
+    <field name="health-max-age-seconds" type="integer" required="true">
+      <description>Largest permitted age of a health sample in seconds. Reject future-dated, invalid, and stale samples for traffic placement.</description>
+    </field>
+    <field name="current-record-weights" type="string-list" required="true">
+      <description>Rows of policy group, endpoint ID, current relative integer weight, and published TTL in seconds. Also state each group's provider-supported weight range and the meaning of a zero weight.</description>
+    </field>
+    <field name="cached-load-rps" type="string-list" required="false">
+      <description>Optional conservative residual application load per endpoint from cached answers and long-lived connections. Do not assume this drops immediately or exactly at TTL. If unknown, mark transition capacity as unverified.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="proposed-record-weights" type="string-list" required="true">
+      <description>Rows of policy group, endpoint ID, and proposed relative integer weight, after rounding to provider-supported values. Weight models DNS response probability within the group, not a guaranteed percentage of application requests.</description>
+    </field>
+    <field name="transition-capacity-check" type="string-list" required="false">
+      <description>Check estimated application demand, residual cached load, and headroom only if independently observed; do not predict request volume from DNS weights. Otherwise report that transition capacity is unverified.</description>
+    </field>
+    <field name="operator-review" type="string-list" required="true">
+      <description>Show preferred, fallback, or no-eligible-region by market. If no allowed region qualifies, hold the entire weight instead of falling back outside the allowlist. Report unknown cache behavior and provider-specific policy checks. A zero weight must not be interpreted as universal isolation or immediate draining. No control-plane updates are performed.</description>
+    </field>
+  </outputs>
+</recipe>
