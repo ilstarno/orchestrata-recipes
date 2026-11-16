@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="field-service">
+  <title>Assign technicians to overlapping jobs</title>
+  <scenario>Plan three simultaneous appointments using eligible technicians. A technician can attend at most one appointment. Prefer assigning Alex to Lift repair when the other jobs can still be covered.</scenario>
+  <inputs>
+    <field name="job-names" type="string-list" required="true">
+      <description>Names of the jobs in order: Lift repair, Safety inspection, Preventive maintenance.</description>
+    </field>
+    <field name="technician-names" type="string-list" required="true">
+      <description>Technician names in index order: Alex, Sam, Noor. Indices in this recipe start at zero.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive job and technician index pairs: 0,0; 0,2; 1,0; 1,1; 2,1; 2,2.</description>
+    </field>
+    <field name="preferred-lift-technician" type="integer" required="false">
+      <description>Optional technician index preferred for Lift repair. Alex is 0. The preference never overrides eligibility.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-technicians" type="integer-list" required="true">
+      <description>For a feasible plan, one technician index per job in input order. The example preference yields 0,1,2.</description>
+    </field>
+  </outputs>
+</recipe>

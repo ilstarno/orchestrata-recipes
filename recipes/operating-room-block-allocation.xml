@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="operating-room-block-allocation">
+  <title>Allocate operating rooms for one fixed block</title>
+  <scenario>Assign three synthetic intervention placeholders to different operating rooms during one already scheduled block. Facility staff supply approved room options. This logistics example does not determine clinical suitability, priority, intervention timing, team coverage, turnover, or emergency capacity. Do not use it to decide patient care.</scenario>
+  <inputs>
+    <field name="intervention-labels" type="string-list" required="true">
+      <description>Synthetic placeholder labels in order: Slot A, Slot B, Slot C. No patient information or clinical details are needed.</description>
+    </field>
+    <field name="room-labels" type="string-list" required="true">
+      <description>Rooms in zero-based order: OR North, OR Central, OR South.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive placeholder and room index pairs: 0,0; 0,2; 1,1; 1,2; 2,1; 2,2. Room options come from the facility, not the solver.</description>
+    </field>
+    <field name="preferred-slot-b-room" type="integer" required="false">
+      <description>Optional logistical room preference for Slot B. The example prefers OR South (2). This does not override eligibility.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-rooms" type="integer-list" required="true">
+      <description>For a feasible plan, one room index per placeholder. The preferred example yields 0,2,1 in placeholder order.</description>
+    </field>
+  </outputs>
+</recipe>

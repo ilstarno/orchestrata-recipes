@@ -1,0 +1,42 @@
+{
+  "variables": [
+    {
+      "name": "Duty 801",
+      "domain": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Duty 816",
+      "domain": [
+        0,
+        2
+      ]
+    },
+    {
+      "name": "Duty 842",
+      "domain": [
+        1,
+        2
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "all_different",
+      "variables": [
+        0,
+        1,
+        2
+      ],
+      "hard_weight": 1
+    },
+    {
+      "kind": "prefer_value",
+      "variable": 0,
+      "value": 1,
+      "soft_weight": 1
+    }
+  ]
+}

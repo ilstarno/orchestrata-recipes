@@ -1,0 +1,11 @@
+{
+  "variables": [
+    {"name": "visitor-desk", "domain": [0, 1]},
+    {"name": "supply-desk", "domain": [2]},
+    {"name": "courier-intake", "domain": [0, 1]}
+  ],
+  "constraints": [
+    {"kind": "all_different", "variables": [0, 1, 2], "hard_weight": 1},
+    {"kind": "prefer_value", "variable": 0, "value": 1, "soft_weight": 1}
+  ]
+}

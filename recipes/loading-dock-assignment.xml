@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="loading-dock-assignment">
+  <title>Assign distributor trailers to loading doors</title>
+  <scenario>Three trailers overlap at 08:30. Choose a compatible, available loading door for each trailer and keep doors exclusive during this interval. Prefer Door 7 for Parcel outbound because it is near the parcel staging area. This example does not choose arrival slots, sequence work, route trucks, or schedule crews.</scenario>
+  <inputs>
+    <field name="load-names" type="string-list" required="true">
+      <description>Load labels in order: Refrigerated inbound, Parcel outbound, Palletized transfer.</description>
+    </field>
+    <field name="door-names" type="string-list" required="true">
+      <description>Loading door labels in zero-based index order: Door 4, Door 7, Door 9.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Flattened load and door index pairs after checking equipment, trailer fit, and availability: 0,0; 0,1; 1,1; 1,2; 2,0; 2,2.</description>
+    </field>
+    <field name="preferred-parcel-door" type="integer" required="false">
+      <description>Optional door index preferred for Parcel outbound, without overriding compatibility. Door 7 is 1.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-doors" type="integer-list" required="true">
+      <description>For a feasible plan, one door index per load in input order. The example preference yields 0,1,2.</description>
+    </field>
+  </outputs>
+</recipe>

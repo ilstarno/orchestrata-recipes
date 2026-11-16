@@ -1,0 +1,53 @@
+{
+  "job-names": [
+    "Parcel pickup",
+    "Depot delivery",
+    "Small-box drop"
+  ],
+  "job-weights-kg": [
+    450,
+    700,
+    150
+  ],
+  "job-windows-minutes": [
+    540,
+    570,
+    550,
+    590,
+    555,
+    600
+  ],
+  "vehicle-names": [
+    "Large van",
+    "Short-shift van",
+    "Late-start van"
+  ],
+  "vehicle-capacities-kg": [
+    1000,
+    500,
+    800
+  ],
+  "vehicle-windows-minutes": [
+    510,
+    620,
+    530,
+    580,
+    545,
+    630
+  ],
+  "eligible-pairs": [
+    0,
+    0,
+    0,
+    1,
+    1,
+    0,
+    1,
+    2,
+    2,
+    0,
+    2,
+    2
+  ],
+  "preferred-depot-vehicle": 2
+}

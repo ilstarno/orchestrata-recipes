@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="dental-clinic-room-allocation">
+  <title>Assign dental clinic rooms to overlapping bookings</title>
+  <scenario>Assign rooms to three synthetic bookings with the same fixed appointment block. Each booking has an approved list of rooms, and no room can be used twice. This example handles room allocation only. It does not set appointment durations, evaluate clinical suitability, manage room turnover, or decide when anyone receives care.</scenario>
+  <inputs>
+    <field name="booking-labels" type="string-list" required="true">
+      <description>Synthetic booking labels in order: Booking A, Booking B, Booking C. No patient information is needed.</description>
+    </field>
+    <field name="room-labels" type="string-list" required="true">
+      <description>Rooms in zero-based order: Room North, Room East, Room West.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive booking and room index pairs: 0,0; 0,2; 1,0; 1,1; 2,1; 2,2. Use only room options approved by the clinic.</description>
+    </field>
+    <field name="preferred-booking-a-room" type="integer" required="false">
+      <description>Optional preferred room index for Booking A. The example prefers Room West (2). This does not override eligibility.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-rooms" type="integer-list" required="true">
+      <description>For a feasible plan, one room index per booking. The preferred example yields 2,0,1 in booking order.</description>
+    </field>
+  </outputs>
+</recipe>

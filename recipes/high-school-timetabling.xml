@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="high-school-timetabling">
+  <title>Assign classrooms for one high-school period</title>
+  <scenario>Three classes already meet in second period. Assign one suitable room to each class without double-booking a room. Prefer South Lab for Civics seminar because it is closer to the preceding class. This example does not select periods, assign teachers, account for student course conflicts, or build a weekly timetable.</scenario>
+  <inputs>
+    <field name="class-names" type="string-list" required="true">
+      <description>Class labels in order: Chemistry lab, Digital design, Civics seminar.</description>
+    </field>
+    <field name="room-names" type="string-list" required="true">
+      <description>Room labels in zero-based index order: North Lab, South Lab, Media Studio.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Flattened class and room index pairs after checking equipment, capacity, accessibility, and availability: 0,0; 0,1; 1,0; 1,2; 2,1; 2,2.</description>
+    </field>
+    <field name="preferred-civics-room" type="integer" required="false">
+      <description>Optional room index preferred for Civics seminar, without overriding suitability. South Lab is 1.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-rooms" type="integer-list" required="true">
+      <description>For a feasible plan, one room index per class in input order. The example preference yields 0,2,1.</description>
+    </field>
+  </outputs>
+</recipe>

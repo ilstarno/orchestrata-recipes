@@ -1,0 +1,59 @@
+{
+  "job-names": [
+    "Clinic cartons",
+    "Lab consumables",
+    "Care center PPE"
+  ],
+  "job-weights-kg": [
+    90,
+    280,
+    150
+  ],
+  "job-windows-minutes": [
+    480,
+    510,
+    485,
+    520,
+    490,
+    530
+  ],
+  "vehicle-names": [
+    "Cargo van",
+    "Compact van",
+    "Courier van",
+    "East van"
+  ],
+  "vehicle-capacities-kg": [
+    400,
+    120,
+    250,
+    450
+  ],
+  "vehicle-windows-minutes": [
+    450,
+    560,
+    470,
+    520,
+    475,
+    550,
+    490,
+    535
+  ],
+  "eligible-pairs": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    2,
+    1,
+    0,
+    2,
+    0,
+    2,
+    2,
+    2,
+    3
+  ],
+  "preferred-care-center-vehicle": 3
+}

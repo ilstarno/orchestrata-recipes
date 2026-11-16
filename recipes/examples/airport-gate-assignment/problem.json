@@ -1,0 +1,42 @@
+{
+  "variables": [
+    {
+      "name": "Flight 201",
+      "domain": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Flight 415",
+      "domain": [
+        0,
+        2
+      ]
+    },
+    {
+      "name": "Flight 630",
+      "domain": [
+        1,
+        2
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "all_different",
+      "variables": [
+        0,
+        1,
+        2
+      ],
+      "hard_weight": 1
+    },
+    {
+      "kind": "prefer_value",
+      "variable": 0,
+      "value": 0,
+      "soft_weight": 1
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="healthcare-supply-delivery">
+  <title>Assign vans to overlapping healthcare supply deliveries</title>
+  <scenario>Assign vans to three overlapping deliveries of cartons, lab consumables, and protective equipment. Use fictional receiving sites and no patient data or clinical decisions. A van must cover the full receiving window and carry the job's weight. This example does not model aggregate capacity, linked pickup-before-delivery route ordering, multi-stop routing, or handling requirements beyond weight and availability.</scenario>
+  <inputs>
+    <field name="job-names" type="string-list" required="true">
+      <description>Jobs in input order: Clinic cartons, Lab consumables, Care center PPE. The names and data are synthetic.</description>
+    </field>
+    <field name="job-weights-kg" type="integer-list" required="true">
+      <description>Whole kilograms per shipment, in job order: 90,280,150.</description>
+    </field>
+    <field name="job-windows-minutes" type="integer-list" required="true">
+      <description>Receiving start and end pairs in minutes after midnight on one day: 480,510; 485,520; 490,530. All three intervals overlap.</description>
+    </field>
+    <field name="vehicle-names" type="string-list" required="true">
+      <description>Vans in zero-based index order: Cargo van, Compact van, Courier van, East van.</description>
+    </field>
+    <field name="vehicle-capacities-kg" type="integer-list" required="true">
+      <description>Per-vehicle usable load limits in whole kilograms: 400,120,250,450.</description>
+    </field>
+    <field name="vehicle-windows-minutes" type="integer-list" required="true">
+      <description>Availability start and end pairs in minutes after midnight: 450,560; 470,520; 475,550; 490,535.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Precomputed job and vehicle index pairs from full window containment and per-job capacity: 0,0; 0,1; 0,2; 1,0; 2,0; 2,2; 2,3. The solver receives these as assignment domains and does not recompute them from weights or windows.</description>
+    </field>
+    <field name="preferred-care-center-vehicle" type="integer" required="false">
+      <description>Optional vehicle index preferred for Care center PPE. The example prefers East van, index 3. A preference never overrides eligibility or overlap.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-vehicles" type="integer-list" required="true">
+      <description>For a feasible result, one vehicle index per job in input order. With the example preference, the first optimal result is 1,0,3.</description>
+    </field>
+  </outputs>
+</recipe>
