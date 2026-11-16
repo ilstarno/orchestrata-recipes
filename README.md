@@ -10,3 +10,6 @@ cargo run -p orchestrata-recipes --example fleet_benchmark -- recipes/benchmarks
 ```
 
 The [fleet workloads](recipes/benchmarks/README.md) generate inputs only. They do not solve routes or estimate travel times. To solve a planning example, supply its `problem.json` to an installed Orchestrata CLI or running solve API.
+
+For interview scheduling, interviewer absence recovery, and recruiting
+coordinator handoffs, see [Hiring operations recipes](docs/hiring-operations.md).

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="hiring-interview-scheduling">
+  <title>Schedule interviews with complete panel coverage</title>
+  <scenario>A coordinator has approved interview requests across time zones but limited panel and room availability. Recommend a complete booking or hold each request for review. The recipe allocates time and resources only. It neither evaluates applicants nor advances or rejects them.</scenario>
+  <inputs>
+    <field name="request-ids" type="string-list" required="true">
+      <description>Unique opaque IDs for interview requests the recruiter has already approved for scheduling. Use request IDs, not applicant names, resumes, demographics, or notes.</description>
+    </field>
+    <field name="availability-windows" type="string-list" required="true">
+      <description>One row per confirmed request, staff member, or resource window: subject type, opaque ID, start UTC, and end UTC. Normalize from the source time zone before planning. Start is inclusive and end exclusive. An unknown or unconfirmed window is not free.</description>
+    </field>
+    <field name="offered-starts" type="string-list" required="true">
+      <description>Pairs of request ID and offered UTC start. A start is only a candidate slot; the entire meeting must fit the relevant confirmed windows.</description>
+    </field>
+    <field name="session-durations-minutes" type="integer-list" required="true">
+      <description>One positive duration in minutes per request, in request order. Include only meeting time here; setup, preparation, and turnover belong in the buffer fields.</description>
+    </field>
+    <field name="panel-requirements" type="string-list" required="true">
+      <description>One row per required human panel seat: request ID, seat ID, and roster role. A panel needs distinct available staff for its required seats, even when one staff member can cover several roles.</description>
+    </field>
+    <field name="staff-roles" type="string-list" required="true">
+      <description>Pairs of opaque staff ID and approved panel role from the scheduling roster. Do not infer staff competency, candidate eligibility, or any rating from interview materials.</description>
+    </field>
+    <field name="resource-requirements" type="string-list" required="true">
+      <description>One row per request with the accepted meeting format and the room or video resource class. Match an available resource of that class without disclosing why a particular setup was requested.</description>
+    </field>
+    <field name="resource-roster" type="string-list" required="true">
+      <description>One row per opaque resource ID and its supported class. Availability windows apply to each exact resource, not all items of that class.</description>
+    </field>
+    <field name="buffers-minutes" type="integer-list" required="true">
+      <description>Exactly two nonnegative values: preparation before and turnover after each booking. They occupy staff and resource time but do not lengthen the candidate meeting.</description>
+    </field>
+    <field name="staff-daily-max" type="integer" required="false">
+      <description>Optional maximum number of interviews per staff member per UTC day for this worked schedule. Reject extra assignments even when free windows remain.</description>
+    </field>
+    <field name="session-dependencies" type="string-list" required="false">
+      <description>Rows of preceding request ID, dependent session ID, and minimum gap in minutes after the preceding session ends. For example, a debrief starts only after the panel and its required break.</description>
+    </field>
+    <field name="confirmed-reservations" type="string-list" required="false">
+      <description>Existing bookings to keep fixed, identified by exact staff, resource and request IDs with UTC start and end. A new plan may not overlap them after required buffers.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="proposed-bookings" type="string-list" required="true">
+      <description>One row per placed request: request ID, UTC start and end, assigned panel seats, and resource ID. Maximize placeable bookings, then prefer earlier feasible starts. Use stable request IDs only to break exact scheduling ties.</description>
+    </field>
+    <field name="review-holds" type="string-list" required="true">
+      <description>One row per unplaced request. Use a reason such as no-overlap for unavailable confirmed windows, no-panel for missing seat coverage, schedule-conflict for clashes or unavailable resources, or prerequisite for a missing earlier session. A hold never changes an applicant's status.</description>
+    </field>
+  </outputs>
+</recipe>

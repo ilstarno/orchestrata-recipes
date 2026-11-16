@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="hiring-coordinator-checkpoints">
+  <title>Plan recruiter coordination and handoff deadlines</title>
+  <scenario>A recruiting team has approved meetings but needs coverage for confirmations, room checks, and missing feedback reminders. Schedule internal work against agreed service targets. An overdue checkpoint prompts a human follow-up, never an automatic decision about an applicant.</scenario>
+  <inputs>
+    <field name="checkpoint-ids" type="string-list" required="true">
+      <description>Unique task IDs for scheduling administration, not applicant records. Examples: interview confirmation check, panel replacement check, room setup check, and feedback form completion reminder.</description>
+    </field>
+    <field name="request-links" type="string-list" required="true">
+      <description>One opaque approved interview request ID per checkpoint, in checkpoint order. Provide no applicant contact details, feedback text, assessment result, medical or accommodation details, or documents.</description>
+    </field>
+    <field name="checkpoint-windows" type="string-list" required="true">
+      <description>For each checkpoint: earliest start and latest completion in UTC, plus the staff role responsible for the task. A due time is a service target set by the owning team, not a legal deadline asserted by this recipe.</description>
+    </field>
+    <field name="task-minutes" type="integer-list" required="true">
+      <description>One positive expected effort in minutes per checkpoint, in checkpoint order. Compare effort to staff working windows and keep each task within a single window.</description>
+    </field>
+    <field name="dependencies" type="string-list" required="false">
+      <description>Directed pairs of checkpoint IDs: previous task, next task. The next task may start only after the previous task finishes. A feedback reminder cannot precede completion of the relevant interview.</description>
+    </field>
+    <field name="completed-prerequisites" type="string-list" required="false">
+      <description>Opaque request ID, prerequisite code and actual UTC completion for checkpoints whose predecessor happened outside the plan, such as a completed interview. A missing completion does not count as satisfied.</description>
+    </field>
+    <field name="staff-capacity" type="string-list" required="true">
+      <description>Each row contains an opaque staff ID, an approved coordinator role, available UTC windows, and net reserved minutes for recruiting operations. Respect both time-window and capacity limits and do not double-book people.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="proposed-task-plan" type="string-list" required="true">
+      <description>One row per placed checkpoint: ID, proposed UTC start and end, and staff ID. Prefer completing more checkpoints by their agreed due times, then use earlier due times to break scheduling ties.</description>
+    </field>
+    <field name="overdue-or-blocked" type="string-list" required="true">
+      <description>Each unscheduled task ID with a reason such as missing prerequisite, no qualified staff window, or insufficient capacity before the target. Return it to the recruiter for review without changing an applicant's status or messaging anyone.</description>
+    </field>
+    <field name="planned-by-target" type="integer" required="true">
+      <description>Count of scheduled checkpoints whose planned end is no later than their agreed target. This is a planned operational measure, not a record that any applicant step has completed.</description>
+    </field>
+  </outputs>
+</recipe>

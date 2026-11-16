@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="hiring-interviewer-recovery">
+  <title>Recover a confirmed schedule after an interviewer calls out</title>
+  <scenario>A team member becomes unavailable after interview times have been agreed. Try another approved interviewer at the same time before moving a meeting. Preserve unaffected appointments, do not move frozen meetings automatically, and send unresolved conflicts to the coordinator for review.</scenario>
+  <inputs>
+    <field name="confirmed-bookings" type="string-list" required="true">
+      <description>Each row carries an opaque approved request ID, calendar revision, UTC start and end, required panel seats, assigned staff, and reserved resource. The coordinator supplies the source revision; a stale or incomplete snapshot goes to review.</description>
+    </field>
+    <field name="unavailable-staff-windows" type="string-list" required="true">
+      <description>Pairs of opaque staff ID and blocked UTC interval from the calendar. Record only the scheduling effect, not a reason for absence. Buffer time overlapping a block also makes a placement infeasible.</description>
+    </field>
+    <field name="replacement-roster" type="string-list" required="true">
+      <description>Approved people available to fill each panel seat, with opaque roster IDs and available UTC windows. A person may not fill two seats in the same interview or overlap another booking.</description>
+    </field>
+    <field name="alternate-request-windows" type="string-list" required="true">
+      <description>Confirmed alternative UTC windows for each approved request. If none has been confirmed, propose only changes that preserve the original time and accepted format, or hold the request for manual confirmation.</description>
+    </field>
+    <field name="resource-availability" type="string-list" required="true">
+      <description>UTC availability and supported meeting format for each opaque room or video resource ID. Never rebook a resource occupied by another meeting.</description>
+    </field>
+    <field name="pinned-request-ids" type="string-list" required="true">
+      <description>Any request ID whose start, panel, and resource may not be changed by the planner, such as a meeting about to begin. Report a pin conflict for review rather than silently changing it.</description>
+    </field>
+    <field name="buffers-minutes" type="integer-list" required="true">
+      <description>Exactly two nonnegative values: staff and resource minutes reserved before and after the meeting. These remain hard constraints during a recovery plan.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="recovery-proposals" type="string-list" required="true">
+      <description>For each proposed change, return request ID, old and proposed start/end, seat or room changes, and scheduling reason. Maximize placements, then minimize changes to confirmed bookings before considering earlier feasible starts. Distinguish changes in time, panel, and resource in the report.</description>
+    </field>
+    <field name="unchanged-request-ids" type="string-list" required="true">
+      <description>Approved requests still feasible as confirmed. Must not include an appointment with an unavailable panel member or conflicting pin.</description>
+    </field>
+    <field name="review-holds" type="string-list" required="true">
+      <description>Request and reason when no confirmed alternative satisfies all constraints, or a pinned booking is infeasible. The coordinator reviews before any invitation is moved or sent. No calendar writes are made by this recipe.</description>
+    </field>
+  </outputs>
+</recipe>

@@ -109,3 +109,26 @@ fn missing_sections_and_empty_field_descriptions_are_not_defaults() {
         Err(RecipeError::InvalidStructure)
     );
 }
+
+#[test]
+fn loads_hiring_operations_recipes_as_version_one_contracts() {
+    for (id, xml) in [
+        (
+            "hiring-interview-scheduling",
+            include_str!("../recipes/hiring-interview-scheduling.xml"),
+        ),
+        (
+            "hiring-interviewer-recovery",
+            include_str!("../recipes/hiring-interviewer-recovery.xml"),
+        ),
+        (
+            "hiring-coordinator-checkpoints",
+            include_str!("../recipes/hiring-coordinator-checkpoints.xml"),
+        ),
+    ] {
+        let recipe = load_recipe(xml).unwrap_or_else(|err| panic!("{id}: {err:?}"));
+        assert_eq!(recipe.id(), id);
+        assert!(!recipe.inputs().is_empty());
+        assert!(!recipe.outputs().is_empty());
+    }
+}
