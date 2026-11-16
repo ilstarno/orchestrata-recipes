@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fleet-benchmark version="1" id="new-york" city="New York" stops="16030" shift-minutes="480" seed="16030">
+  <couriers vehicle="80" bicycle="15" walking="5"/>
+</fleet-benchmark>

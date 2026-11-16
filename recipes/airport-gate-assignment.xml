@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="airport-gate-assignment">
+  <title>Assign overlapping flights to compatible gates</title>
+  <scenario>Assign three flights that need a gate at the same time. The eligibility list already accounts for aircraft size and gate access, and each gate can serve at most one flight. Prefer placing Flight 201 at A12 if all flights can still be assigned. This example does not handle turnaround buffers, towing, remote stands, delays, or live gate control.</scenario>
+  <inputs>
+    <field name="flight-identifiers" type="string-list" required="true">
+      <description>Flights occupying a gate in the overlapping window, in index order: Flight 201, Flight 415, Flight 630.</description>
+    </field>
+    <field name="gate-identifiers" type="string-list" required="true">
+      <description>Candidate gate identifiers, in index order: A12, A14, B07. Indices start at zero.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive zero-based flight and gate index pairs: 0,0; 0,1; 1,0; 1,2; 2,1; 2,2. These are the only eligible choices.</description>
+    </field>
+    <field name="preferred-first-flight-gate" type="integer" required="false">
+      <description>Gate index preferred for Flight 201 (index 0 is A12). Omit this field for no preference; it cannot override eligibility or unique use.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-gates" type="integer-list" required="true">
+      <description>For a feasible plan: One gate index per flight, in flight order. With the example preference the result is [0,2,1].</description>
+    </field>
+  </outputs>
+</recipe>

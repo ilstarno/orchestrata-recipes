@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="hospital-nonclinical-shift-coverage">
+  <title>Cover overlapping nonclinical hospital posts</title>
+  <scenario>Assign three people to three support posts during one fixed block. Each person can cover at most one post and can only cover posts for which they are already available and cleared by the facility. This synthetic example does not determine clinical staffing, qualifications, staffing ratios, breaks, or coverage across blocks.</scenario>
+  <inputs>
+    <field name="post-labels" type="string-list" required="true">
+      <description>Posts in order: Visitor desk, Supply desk, Courier intake.</description>
+    </field>
+    <field name="staff-labels" type="string-list" required="true">
+      <description>Synthetic staff labels in zero-based order: Staff A, Staff B, Staff C.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive post and staff index pairs: 0,0; 0,1; 1,2; 2,0; 2,1. Eligibility is supplied, not inferred.</description>
+    </field>
+    <field name="preferred-visitor-desk-staff" type="integer" required="false">
+      <description>Optional preferred staff index for Visitor desk. The example prefers Staff B (1). This does not override eligibility.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-staff" type="integer-list" required="true">
+      <description>For a feasible plan, one staff index per post. The preferred example yields 1,2,0 in post order.</description>
+    </field>
+  </outputs>
+</recipe>

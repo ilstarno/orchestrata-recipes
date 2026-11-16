@@ -1,0 +1,14 @@
+{
+  "variables": [
+    { "name": "north_keyholder", "domain": [0] },
+    { "name": "north_floor", "domain": [2] },
+    { "name": "south_register", "domain": [2, 4] },
+    { "name": "south_stock", "domain": [3, 4] }
+  ],
+  "constraints": [
+    { "kind": "all_different", "variables": [0, 1, 2, 3], "hard_weight": 1 },
+    { "kind": "prefer_value", "variable": 1, "value": 1, "soft_weight": 5 },
+    { "kind": "prefer_value", "variable": 2, "value": 2, "soft_weight": 3 },
+    { "kind": "prefer_value", "variable": 3, "value": 3, "soft_weight": 2 }
+  ]
+}

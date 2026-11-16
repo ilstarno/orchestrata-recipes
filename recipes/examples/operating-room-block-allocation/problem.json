@@ -1,0 +1,11 @@
+{
+  "variables": [
+    {"name": "slot-a", "domain": [0, 2]},
+    {"name": "slot-b", "domain": [1, 2]},
+    {"name": "slot-c", "domain": [1, 2]}
+  ],
+  "constraints": [
+    {"kind": "all_different", "variables": [0, 1, 2], "hard_weight": 1},
+    {"kind": "prefer_value", "variable": 1, "value": 2, "soft_weight": 1}
+  ]
+}

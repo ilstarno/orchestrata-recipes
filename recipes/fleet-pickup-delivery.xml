@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="fleet-pickup-delivery">
+  <title>Assign vans to overlapping pickups and deliveries</title>
+  <scenario>Assign one available van to each independent pickup or delivery. All three job windows overlap, so each van can take at most one job. A van must cover the full window and carry the job's weight. This example does not link pickups to deliveries, enforce pickup-before-delivery route ordering, combine loads for aggregate capacity, or plan multi-stop routes.</scenario>
+  <inputs>
+    <field name="job-names" type="string-list" required="true">
+      <description>Jobs in input order: Parcel pickup, Depot delivery, Small-box drop.</description>
+    </field>
+    <field name="job-weights-kg" type="integer-list" required="true">
+      <description>Whole kilograms per job, in job order: 450,700,150.</description>
+    </field>
+    <field name="job-windows-minutes" type="integer-list" required="true">
+      <description>Start and end pairs in minutes after midnight on one day: 540,570; 550,590; 555,600. All three intervals overlap.</description>
+    </field>
+    <field name="vehicle-names" type="string-list" required="true">
+      <description>Vans in zero-based index order: Large van, Short-shift van, Late-start van.</description>
+    </field>
+    <field name="vehicle-capacities-kg" type="integer-list" required="true">
+      <description>Per-vehicle usable load limits in whole kilograms: 1000,500,800.</description>
+    </field>
+    <field name="vehicle-windows-minutes" type="integer-list" required="true">
+      <description>Availability start and end pairs in minutes after midnight: 510,620; 530,580; 545,630.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Precomputed job and vehicle index pairs from full window containment and per-job capacity: 0,0; 0,1; 1,0; 1,2; 2,0; 2,2. The solver receives these as assignment domains and does not recompute them from weights or windows.</description>
+    </field>
+    <field name="preferred-depot-vehicle" type="integer" required="false">
+      <description>Optional vehicle index preferred for Depot delivery. The example prefers Late-start van, index 2. A preference never overrides eligibility or overlap.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-vehicles" type="integer-list" required="true">
+      <description>For a feasible result, one vehicle index per job in input order. The example yields 1,2,0.</description>
+    </field>
+  </outputs>
+</recipe>

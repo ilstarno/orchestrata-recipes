@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="retail-staffing-what-if">
+  <title>Compare two-store staffing before and after an absence</title>
+  <scenario>Cover four simultaneous shifts across North and South using prequalified workers. Ana is pinned to North keyholder. When Ben is unavailable, reassign workers without changing coverage, qualifications, or assignment preferences. The example does not forecast staffing demand, validate labor compliance, or guarantee a service level.</scenario>
+  <inputs>
+    <field name="shift-names" type="string-list" required="true">
+      <description>Coverage slots in order: North keyholder, North floor, South register, South stock. All four overlap, so each needs a different worker.</description>
+    </field>
+    <field name="worker-names" type="string-list" required="true">
+      <description>Index order: Ana, Ben, Clara, Diego, Elena. Worker indices start at zero and stay stable across plans.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive zero-based shift and worker index pairs after checking qualifications and availability. Baseline: 0,0; 1,1; 1,2; 2,1; 2,2; 2,4; 3,3; 3,4. For the absence, remove Ben's pairs 1,1 and 2,1.</description>
+    </field>
+    <field name="pinned-pairs" type="integer-list" required="false">
+      <description>Consecutive shift and worker index pairs that cannot be changed. The example pins 0,0. Its normalized input gives North keyholder the singleton domain [0].</description>
+    </field>
+    <field name="preferred-assignments" type="integer-list" required="false">
+      <description>Consecutive shift, worker and soft weight triples: 1,1,5; 2,2,3; 3,3,2. Preferences stay in both plans and never override hard eligibility, pinned shifts, or double-booking rules.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-workers" type="integer-list" required="true">
+      <description>For a feasible plan, one worker index per shift. Baseline: [0,1,2,3]. Without Ben: [0,2,4,3].</description>
+    </field>
+  </outputs>
+</recipe>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fleet-benchmark version="1" id="rome" city="Rome" stops="11221" shift-minutes="480" seed="11221">
+  <couriers vehicle="56" bicycle="10" walking="4"/>
+</fleet-benchmark>

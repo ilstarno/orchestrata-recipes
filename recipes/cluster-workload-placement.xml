@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="cluster-workload-placement">
+  <title>Place concurrent workloads on eligible cluster nodes</title>
+  <scenario>Place three concurrent workloads on three eligible nodes for the same reservation window. Candidate lists come from a separate resource and label check. Reserve each chosen node for at most one workload, and prefer Compute C for the GPU batch job when feasible. This example does not implement a Kubernetes scheduler or model cumulative resource usage, preemption, topology, or live deployment.</scenario>
+  <inputs>
+    <field name="workload-names" type="string-list" required="true">
+      <description>Concurrent workloads to be placed, in index order: GPU batch job, Search index rebuild, Analytics export.</description>
+    </field>
+    <field name="node-names" type="string-list" required="true">
+      <description>Candidate node names, in index order: Compute A, Compute B, Compute C. Indices start at zero.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive zero-based workload and node index pairs: 0,0; 0,2; 1,0; 1,1; 2,1; 2,2. These are the only eligible choices.</description>
+    </field>
+    <field name="preferred-first-workload-node" type="integer" required="false">
+      <description>Node index preferred for the GPU batch job (index 2 is Compute C). Omit this field for no preference; it cannot override eligibility or unique use.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-nodes" type="integer-list" required="true">
+      <description>For a feasible plan: One node index per workload, in workload order. With the example preference the result is [2,0,1].</description>
+    </field>
+  </outputs>
+</recipe>

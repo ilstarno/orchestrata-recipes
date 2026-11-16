@@ -1,0 +1,9 @@
+pub(crate) const MAX_BYTES: usize = 32_768;
+pub(crate) const MAX_NODES: u32 = 512;
+pub(crate) const MAX_FIELDS: usize = 32;
+pub(crate) const MAX_IDENTIFIER_BYTES: usize = 64;
+pub(crate) const MAX_DESCRIPTION_CHARS: usize = 512;
+pub(crate) const MAX_TITLE_CHARS: usize = 120;
+pub(crate) const MAX_VALUE_TEXT_BYTES: usize = 4_096;
+pub(crate) const MAX_VALUE_LIST_ITEMS: usize = 1_024;
+pub(crate) const MAX_PAYLOAD_BYTES: usize = 131_072;

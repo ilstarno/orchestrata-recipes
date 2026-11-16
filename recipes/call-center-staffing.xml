@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="call-center-staffing">
+  <title>Staff three simultaneous call-center queues</title>
+  <scenario>At 10:00, assign one available, qualified agent to each of three queues for one 30-minute interval, with no agent covering two queues. Prefer Morgan for Billing escalations to preserve handoff continuity. This example does not forecast demand, size shifts, track breaks, or model service levels.</scenario>
+  <inputs>
+    <field name="queue-names" type="string-list" required="true">
+      <description>Queue labels in order: Billing escalations, Spanish-language support, Account recovery.</description>
+    </field>
+    <field name="agent-names" type="string-list" required="true">
+      <description>Agent names in zero-based index order: Sofia, Luis, Morgan.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Flattened queue and agent index pairs after checking training and availability: 0,0; 0,2; 1,0; 1,1; 2,1; 2,2.</description>
+    </field>
+    <field name="preferred-billing-agent" type="integer" required="false">
+      <description>Optional agent index preferred for Billing escalations, without overriding eligibility. Morgan is 2.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-agents" type="integer-list" required="true">
+      <description>For a feasible plan, one agent index per queue in input order. The example preference yields 2,0,1.</description>
+    </field>
+  </outputs>
+</recipe>

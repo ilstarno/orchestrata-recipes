@@ -1,0 +1,43 @@
+{
+  "variables": [
+    {
+      "name": "Clinic cartons",
+      "domain": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "name": "Lab consumables",
+      "domain": [
+        0
+      ]
+    },
+    {
+      "name": "Care center PPE",
+      "domain": [
+        0,
+        2,
+        3
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "kind": "all_different",
+      "variables": [
+        0,
+        1,
+        2
+      ],
+      "hard_weight": 1
+    },
+    {
+      "kind": "prefer_value",
+      "variable": 2,
+      "value": 3,
+      "soft_weight": 1
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="airline-crew-assignment">
+  <title>Assign available crews to simultaneous duties</title>
+  <scenario>Assign three overlapping duties to three prequalified crews. The eligibility list is supplied after checking fleet qualifications and availability; no crew can cover two overlapping duties. Prefer Crew Bravo for Duty 801 if every duty can be covered. This example does not calculate duty-time legality, rest, pairing, reserve recovery, or seniority.</scenario>
+  <inputs>
+    <field name="duty-identifiers" type="string-list" required="true">
+      <description>Overlapping duties to be covered, in index order: Duty 801, Duty 816, Duty 842.</description>
+    </field>
+    <field name="crew-identifiers" type="string-list" required="true">
+      <description>Candidate crew identifiers, in index order: Crew Alpha, Crew Bravo, Crew Charlie. Indices start at zero.</description>
+    </field>
+    <field name="eligible-pairs" type="integer-list" required="true">
+      <description>Consecutive zero-based duty and crew index pairs: 0,0; 0,1; 1,0; 1,2; 2,1; 2,2. These are the only eligible choices.</description>
+    </field>
+    <field name="preferred-first-duty-crew" type="integer" required="false">
+      <description>Crew index preferred for Duty 801 (index 1 is Crew Bravo). Omit this field for no preference; it cannot override eligibility or unique use.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="assigned-crews" type="integer-list" required="true">
+      <description>For a feasible plan: One crew index per duty, in duty order. With the example preference the result is [1,0,2].</description>
+    </field>
+  </outputs>
+</recipe>

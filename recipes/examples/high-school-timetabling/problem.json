@@ -1,0 +1,11 @@
+{
+  "variables": [
+    { "name": "chemistry_lab", "domain": [0, 1] },
+    { "name": "digital_design", "domain": [0, 2] },
+    { "name": "civics_seminar", "domain": [1, 2] }
+  ],
+  "constraints": [
+    { "kind": "all_different", "variables": [0, 1, 2], "hard_weight": 1 },
+    { "kind": "prefer_value", "variable": 2, "value": 1, "soft_weight": 5 }
+  ]
+}
