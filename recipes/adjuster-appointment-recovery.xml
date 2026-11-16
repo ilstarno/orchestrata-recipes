@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="adjuster-appointment-recovery">
+  <title>Recover adjuster visits after a staff availability change</title>
+  <scenario>An adjuster becomes unavailable after visit windows were agreed. Compare replacement assignments and, where an alternative is confirmed, propose a new window. Preserve fixed visits, bring unresolved conflicts to a dispatcher, and never contact customers or write calendars.</scenario>
+  <inputs>
+    <field name="confirmed-visits" type="string-list" required="true">
+      <description>Opaque visit/task ID, configuration revision, approved UTC appointment window, planned service duration, work role and coarse zone, assigned staff reference, and frozen status.</description>
+    </field>
+    <field name="staff-changes" type="string-list" required="true">
+      <description>Opaque staff ID and revised UTC blocked or available intervals. Do not include the reason for unavailability.</description>
+    </field>
+    <field name="replacement-roster" type="string-list" required="true">
+      <description>Staff role and permitted operating zones supplied by a supervisor, UTC windows, fixed commitments, and remaining capacity. The planner does not grant permission to work a case.</description>
+    </field>
+    <field name="verified-alternates" type="string-list" required="false">
+      <description>Opaque visit IDs and only confirmed alternate time windows. An available alternative is not permission to contact a customer or move a visit.</description>
+    </field>
+    <field name="travel-and-reserve" type="string-list" required="true">
+      <description>Time matrix between coarse zones, plus minimum transfer and service buffers. Include relevant existing visits, not just those that require recovery.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="recovery-proposals" type="string-list" required="true">
+      <description>For a feasible recovery return old and proposed visit time, proposed approved assignee, and reason. Prefer viable same-time cover before proposing a confirmed alternative.</description>
+    </field>
+    <field name="unchanged-or-held" type="string-list" required="true">
+      <description>Distinguish confirmed unchanged visits from those on hold for human review. Describe conflicts such as unavailable authorized cover or a frozen visit that cannot be maintained. No cancellations or messages are sent.</description>
+    </field>
+  </outputs>
+</recipe>

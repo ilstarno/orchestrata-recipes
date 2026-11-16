@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="claims-operations-work-dispatch">
+  <title>Dispatch existing insurance claim work without judging claims</title>
+  <scenario>A claims operations supervisor has already opened administrative or inspection work items. Propose assignments across teams with verified scope and available time. Do not infer severity, liability, coverage, fraud, customer priority, or settlement amount.</scenario>
+  <inputs>
+    <field name="approved-claim-work" type="string-list" required="true">
+      <description>Opaque task ID, approved work type, externally supplied priority and due timestamps, duration, coarse operating region, and necessary role. No claim notes, claimant identifiers, diagnoses, policy attributes, or loss details.</description>
+    </field>
+    <field name="adjuster-capacity" type="string-list" required="true">
+      <description>Opaque staff ID, administrator-verified work scope, role, permitted zones, existing reservations, available windows, and remaining task or hour limits.</description>
+    </field>
+    <field name="handoff-dependencies" type="string-list" required="false">
+      <description>Approved predecessor tasks and the earliest confirmed handoff times. Uncompleted prerequisite tasks keep successors out of the usable queue.</description>
+    </field>
+    <field name="travel-time-matrix" type="string-list" required="false">
+      <description>Verified rounded travel minutes between service zones and depots where travel matters; no precise claimant address is needed. Unknown travel bounds produce manual review.</description>
+    </field>
+    <field name="dispatch-policy" type="string-list" required="true">
+      <description>Version of the approved process rules such as role/zone authorization, reserve minutes, mandatory offline review, and which tasks may be shared across teams.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="proposed-task-assignments" type="string-list" required="true">
+      <description>Opaque task and proposed assignee references, approved operating region, proposed UTC work slots, and reasons. Optimize deadline coverage while observing established capacity and authorization. No claim state change.</description>
+    </field>
+    <field name="dispatcher-review" type="string-list" required="true">
+      <description>Tasks with unknown or missing constraints or no feasible assignment; show blocked reason and requested evidence. A routing hold is not an insurance decision.</description>
+    </field>
+  </outputs>
+</recipe>

@@ -16,3 +16,6 @@ coordinator handoffs, see [Hiring operations recipes](docs/hiring-operations.md)
 
 For advisory DNS steering, backend allocation, and rollout gates, see
 [Traffic planning recipes](docs/traffic-planning.md).
+
+For payment exceptions and claims-work scheduling without transaction or
+eligibility decisions, see [Financial operations recipes](docs/financial-operations.md).

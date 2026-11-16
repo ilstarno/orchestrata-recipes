@@ -155,3 +155,30 @@ fn loads_traffic_planning_recipes_as_version_one_contracts() {
         assert!(!recipe.outputs().is_empty());
     }
 }
+
+#[test]
+fn loads_financial_operations_recipes_as_version_one_contracts() {
+    for (id, xml) in [
+        (
+            "payment-operations-review-routing",
+            include_str!("../recipes/payment-operations-review-routing.xml"),
+        ),
+        (
+            "settlement-reconciliation-backlog",
+            include_str!("../recipes/settlement-reconciliation-backlog.xml"),
+        ),
+        (
+            "claims-operations-work-dispatch",
+            include_str!("../recipes/claims-operations-work-dispatch.xml"),
+        ),
+        (
+            "adjuster-appointment-recovery",
+            include_str!("../recipes/adjuster-appointment-recovery.xml"),
+        ),
+    ] {
+        let recipe = load_recipe(xml).unwrap_or_else(|err| panic!("{id}: {err:?}"));
+        assert_eq!(recipe.id(), id);
+        assert!(!recipe.inputs().is_empty());
+        assert!(!recipe.outputs().is_empty());
+    }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="settlement-reconciliation-backlog">
+  <title>Plan settlement reconciliation exception coverage</title>
+  <scenario>An operations team has open reconciliation exceptions ahead of close. Propose a work order using an authoritative read-only extract. The planner never confirms a match, posts a journal, releases a payout, or makes a financial determination.</scenario>
+  <inputs>
+    <field name="open-exceptions" type="string-list" required="true">
+      <description>Opaque case ID, workspace or account-role label, owner-provided exception type, revision, settlement batch reference, ready-at and due-by UTC timestamps, and estimated review minutes. No account numbers or payment amounts are required.</description>
+    </field>
+    <field name="confirmed-inputs" type="string-list" required="true">
+      <description>Per case, whether the expected processor report, bank feed or other upstream artifact is available, current, and approved for the owning team. A missing report cannot be treated as a reconciled account.</description>
+    </field>
+    <field name="team-capacity" type="string-list" required="true">
+      <description>Team or reviewer reference, permitted exception types and account-role scope, remaining minutes per window, pinned items, and any required independent checker window.</description>
+    </field>
+    <field name="close-windows" type="string-list" required="true">
+      <description>Workspace or ledger-role label, externally supplied closing cutoff, calendar/time basis, and administrative escalation owner.</description>
+    </field>
+    <field name="snapshot-max-age-minutes" type="integer" required="true">
+      <description>Largest acceptable age of the source snapshot at allocation time. Do not compare timestamps when the source version or timezone is unresolved.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="proposed-exception-plan" type="string-list" required="true">
+      <description>Case reference, proposed reviewer and checker if required, UTC review windows and closing cutoff. Preserve separation of duties where requested and leave unfinished workload visible.</description>
+    </field>
+    <field name="review-holds" type="string-list" required="true">
+      <description>Case reference and reason such as input incomplete, stale snapshot, no authorized reviewer, checker unavailable, or cutoff cannot be met. Keep the original accounting state unchanged.</description>
+    </field>
+  </outputs>
+</recipe>

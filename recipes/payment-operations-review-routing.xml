@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe version="1" id="payment-operations-review-routing">
+  <title>Route payment operations work to available review teams</title>
+  <scenario>Operations tasks arrive faster than one team can review them. Assign already-open administrative tasks to authorized teams that have remaining review time. The worklist is advisory: it does not infer fraud, determine eligibility, or move money.</scenario>
+  <inputs>
+    <field name="open-work-items" type="string-list" required="true">
+      <description>Opaque item ID, owner-approved administrative queue, received UTC time, agreed review-by UTC time, fixed duration, and market. Do not include transaction narratives, account identifiers, card data, or fraud scores.</description>
+    </field>
+    <field name="reviewer-roles" type="string-list" required="true">
+      <description>Opaque reviewer ID, approved administrative task roles, permitted market or queue, UTC working windows, and pinned work. Cross-team access is not implied by free time.</description>
+    </field>
+    <field name="task-dependencies" type="string-list" required="false">
+      <description>Opaque predecessor and dependent item pairs; a successor can be proposed only after the prerequisite closes or finishes in this worklist.</description>
+    </field>
+    <field name="queue-policy" type="string-list" required="true">
+      <description>Ordered, owner-supplied service priorities and operating windows by queue. Priority is a scheduling input, not a risk estimate or payment recommendation.</description>
+    </field>
+    <field name="handoff-minutes" type="integer" required="false">
+      <description>Nonnegative net reviewer minutes reserved for an approved team transfer.</description>
+    </field>
+  </inputs>
+  <outputs>
+    <field name="proposed-worklist" type="string-list" required="true">
+      <description>Assignment by item reference, reviewer, administrative queue, UTC start and end, and which constraints allowed it. Maximize feasible due-date coverage at authorized teams. No approval, refund, capture, block, or payment action.</description>
+    </field>
+    <field name="unassigned-items" type="string-list" required="true">
+      <description>Unplaced items with reasons such as no permitted reviewer, missing dependency, conflicting commitment, or insufficient time. A hold means no assignment was found, not that a payment should be denied.</description>
+    </field>
+  </outputs>
+</recipe>
