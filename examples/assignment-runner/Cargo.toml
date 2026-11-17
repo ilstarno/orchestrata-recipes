@@ -1,0 +1,12 @@
+[package]
+name = "orchestrata-assignment-runner"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+orchestrata-recipes = { path = "../../backend/crates/recipes" }
+orchestrata-solver = { git = "https://github.com/ilstarno/orchestrata-engine.git", rev = "35bde72ab45ace617e80aaf6a88eea1009e0d829" }
+serde_json = "1"
+
+[workspace]

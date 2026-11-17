@@ -19,3 +19,10 @@ For advisory DNS steering, backend allocation, and rollout gates, see
 
 For payment exceptions and claims-work scheduling without transaction or
 eligibility decisions, see [Financial operations recipes](docs/financial-operations.md).
+
+## Run a recipe directly
+
+The [executable field-service recipe](recipes/executable/README.md) reads an
+XML assignment rule and named JSON inputs, then returns a plan. Other recipe
+XML files in this repository describe examples that still run through their
+checked-in JSON problems.

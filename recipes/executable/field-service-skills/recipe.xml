@@ -1,0 +1,7 @@
+<assignment-recipe version="2">
+  <jobs field="jobs"/>
+  <workers field="workers"/>
+  <eligibility kind="required-skill-and-available" match="exact"/>
+  <objective kind="maximum-coverage"/>
+  <output field="assigned-technicians"/>
+</assignment-recipe>

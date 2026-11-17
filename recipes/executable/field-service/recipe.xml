@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assignment-recipe version="1">
+  <jobs field="job-names"/>
+  <workers field="technician-names" capacities="technician-capacities"/>
+  <eligibility field="eligible-pairs"/>
+  <objective kind="maximum-coverage"/>
+  <output field="assigned-technicians"/>
+</assignment-recipe>
