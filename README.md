@@ -10,3 +10,10 @@ cargo run -p orchestrata-recipes --example fleet_benchmark -- recipes/benchmarks
 ```
 
 The [fleet workloads](recipes/benchmarks/README.md) generate inputs only. They do not solve routes or estimate travel times. To solve a planning example, supply its `problem.json` to an installed Orchestrata CLI or running solve API.
+
+## Run a recipe directly
+
+The [executable field-service recipe](recipes/executable/README.md) reads an
+XML assignment rule and named JSON inputs, then returns a plan. Other recipe
+XML files in this repository describe examples that still run through their
+checked-in JSON problems.

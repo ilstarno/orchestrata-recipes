@@ -1,3 +1,4 @@
+pub mod assignment;
 mod builtin_recipe;
 mod builtins;
 mod constants;

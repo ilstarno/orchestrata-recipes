@@ -5,6 +5,8 @@ edition.workspace = true
 
 [dependencies]
 roxmltree = "0.21.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 
 [[test]]
 name = "fleet_benchmark"
@@ -17,3 +19,7 @@ path = "../../../backend_tests/loader.rs"
 [[test]]
 name = "payload"
 path = "../../../backend_tests/payload.rs"
+
+[[test]]
+name = "assignment"
+path = "../../../backend_tests/assignment.rs"
