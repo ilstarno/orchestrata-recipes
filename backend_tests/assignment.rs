@@ -120,3 +120,133 @@ fn explicit_no_workers_is_valid_and_never_filled_in() {
     assert!(compiled.worker_capacities.is_empty());
     assert_eq!(compiled.eligible_workers_by_job, [Vec::<usize>::new()]);
 }
+
+const SKILL_RECIPE: &str = include_str!("../recipes/executable/field-service-skills/recipe.xml");
+const SKILL_INPUTS: &str = include_str!("../recipes/executable/field-service-skills/inputs.json");
+
+#[test]
+fn skills_derive_edges_with_duplicate_display_names_and_original_order() {
+    let spec = load_assignment_recipe(SKILL_RECIPE).unwrap();
+    assert_eq!(spec.output_field(), "assigned-technicians");
+    let result = compile_capacity_json(&spec, SKILL_INPUTS).unwrap();
+    assert_eq!(result.worker_capacities, [1, 1, 0]);
+    assert_eq!(result.eligible_workers_by_job, [vec![0], vec![1]]);
+    let data = SKILL_INPUTS.replacen("\"available\":true", "\"available\":false", 1);
+    let result = compile_capacity_json(&spec, &data).unwrap();
+    assert_eq!(result.worker_capacities, [0, 1, 0]);
+    assert_eq!(result.eligible_workers_by_job, [vec![], vec![1]]);
+    let renamed = SKILL_RECIPE.replace("field=\"jobs\"", "field=\"requests\"");
+    assert_eq!(
+        compile_capacity_json(&load_assignment_recipe(&renamed).unwrap(), SKILL_INPUTS),
+        Err(AssignmentError::UnexpectedFields)
+    );
+}
+
+#[test]
+fn explicit_match_policy_changes_ascii_edges_without_collapsing_unicode() {
+    let exact = load_assignment_recipe(SKILL_RECIPE).unwrap();
+    let folded = load_assignment_recipe(
+        &SKILL_RECIPE.replace("match=\"exact\"", "match=\"ascii-case-insensitive\""),
+    )
+    .unwrap();
+    let input = SKILL_INPUTS.replace(
+        "\"required_skill\":\"Repair\"",
+        "\"required_skill\":\"repair\"",
+    );
+    assert_eq!(
+        compile_capacity_json(&exact, &input)
+            .unwrap()
+            .eligible_workers_by_job[0],
+        Vec::<usize>::new()
+    );
+    assert_eq!(
+        compile_capacity_json(&folded, &input)
+            .unwrap()
+            .eligible_workers_by_job[0],
+        [0]
+    );
+
+    let input = SKILL_INPUTS
+        .replace(
+            "\"required_skill\":\"Repair\"",
+            "\"required_skill\":\"répair\"",
+        )
+        .replace("\"skills\":[\"Repair\"]", "\"skills\":[\"RÉpair\"]");
+    assert_eq!(
+        compile_capacity_json(&folded, &input)
+            .unwrap()
+            .eligible_workers_by_job[0],
+        Vec::<usize>::new()
+    );
+    let input = input.replace("RÉpair", "re\u{0301}pair");
+    assert_eq!(
+        compile_capacity_json(&folded, &input)
+            .unwrap()
+            .eligible_workers_by_job[0],
+        Vec::<usize>::new()
+    );
+}
+
+#[test]
+fn skill_mode_rejects_bad_xml_and_untyped_or_ambiguous_inputs() {
+    for bad in [
+        SKILL_RECIPE.replace("required-skill-and-available", "always"),
+        SKILL_RECIPE.replace("match=\"exact\"", "match=\"unicode-fold\""),
+        SKILL_RECIPE.replace("<workers field=\"workers\"/>", "<workers field=\"jobs\"/>"),
+        SKILL_RECIPE.replace("version=\"2\"", "version=\"1\""),
+    ] {
+        assert_eq!(
+            load_assignment_recipe(&bad),
+            Err(AssignmentError::InvalidRecipe)
+        );
+    }
+
+    let spec = load_assignment_recipe(SKILL_RECIPE).unwrap();
+    for bad in [
+        SKILL_INPUTS.replace("door-east", "door-west"),
+        SKILL_INPUTS.replace("tech-2", "tech-1"),
+        SKILL_INPUTS.replace("\"jobs\":", "\"jobs\": [], \"\\u006aobs\":"),
+        SKILL_INPUTS.replace("\"capacity\":1", "\"capacity\":0,\"\\u0063apacity\":1"),
+        SKILL_INPUTS.replace("\"available\":true", "\"available\":\"true\""),
+        SKILL_INPUTS.replace("\"capacity\":1", "\"capacity\":1.0"),
+        SKILL_INPUTS.replace("\"capacity\":1", "\"capacity\":201"),
+        SKILL_INPUTS.replace(
+            "\"required_skill\":\"Repair\"",
+            "\"required_skill\":\" Repair\"",
+        ),
+        SKILL_INPUTS.replace(
+            "\"required_skill\":\"Repair\"",
+            "\"required_skill\":\"Repair\\t\"",
+        ),
+        SKILL_INPUTS.replace("\"capacity\":1", "\"capacity\":1,\"department\":\"test\""),
+        SKILL_INPUTS.replace(
+            "\"skills\":[\"Repair\"]",
+            "\"skills\":[\"Repair\",\"Repair\"]",
+        ),
+    ] {
+        assert!(compile_capacity_json(&spec, &bad).is_err(), "{bad}");
+    }
+}
+
+#[test]
+fn skill_mode_accepts_at_most_200_combined_records() {
+    let spec = load_assignment_recipe(SKILL_RECIPE).unwrap();
+    let jobs = (0..100)
+        .map(|i| json!({"id":format!("job-{i}"), "name":"Job", "required_skill":"Repair"}))
+        .collect::<Vec<_>>();
+    let workers = (0..100).map(|i| json!({"id":format!("worker-{i}"),"name":"Alex","skills":["Repair"],"available":true,"capacity":1})).collect::<Vec<_>>();
+    let mut source = json!({"jobs":jobs,"workers":workers});
+    let compiled = compile_capacity_json(&spec, &source.to_string()).unwrap();
+    assert_eq!(
+        compiled.eligible_workers_by_job[99],
+        (0..100).collect::<Vec<_>>()
+    );
+    source["jobs"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!({"id":"extra","name":"Job","required_skill":"Repair"}));
+    assert_eq!(
+        compile_capacity_json(&spec, &source.to_string()),
+        Err(AssignmentError::TooManyRecords)
+    );
+}

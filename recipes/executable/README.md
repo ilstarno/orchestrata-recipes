@@ -39,7 +39,32 @@ instead to see one unassigned job:
 
 A malformed recipe or input returns an error, not a plan. An unassigned job
 means it did not fit the supplied eligibility and capacity limits; it does
-not state why the business rules produced those inputs. The runner does not
-infer qualifications or availability, compare preferences, schedule visits
-over time, or plan routes. Other XML examples describe their individual use
+not state why the business rules produced those inputs. Version 1 does not
+infer qualifications or availability. The runner does not compare
+preferences, schedule visits over time or plan routes. Other XML examples describe their individual use
 cases but do not run through this assignment format.
+
+## Match jobs to skills and available workers
+
+The [version 2 recipe](field-service-skills/recipe.xml) takes two lists of
+records rather than supplied eligibility pairs. Each job has an `id`, a
+`name` and a `required_skill`. Each worker has an `id`, a `name`, a list of
+`skills`, a true/false `available` value and a whole-number `capacity`
+from 0 to 200. Keep IDs unique within each list. Use up to 64 lowercase
+ASCII letters, digits or hyphens per ID. Display names can repeat. Use up
+to 200 records combined and up to 20 skills per worker. Names and skills
+must be nonempty and at most 128 bytes with no surrounding spaces.
+
+Version 2 adds an edge only when the available worker has capacity and
+the required skill. Use `match="exact"` to match the text as written or
+`match="ascii-case-insensitive"` to ignore case in A–Z only. Neither mode
+translates skills, changes accents, or treats different Unicode spellings
+as equal. Missing or malformed fields fail rather than supplying defaults.
+
+Use the same runner with
+`recipes/executable/field-service-skills/recipe.xml` and
+`recipes/executable/field-service-skills/inputs.json`. The example returns
+`{"assigned":2,"assigned-technicians":[0,1]}`. The worker indices refer to the
+original worker order, even when names repeat. Make either available worker
+unavailable and one job is left unassigned. Version 1 remains available
+for callers that already provide an indexed eligibility list.
