@@ -1,6 +1,0 @@
-{
-  "job-names": ["Lift repair", "Safety inspection", "Preventive maintenance"],
-  "technician-names": ["Alex", "Sam", "Noor"],
-  "technician-capacities": [1, 1, 1],
-  "eligible-pairs": [0, 0, 0, 2, 1, 0, 1, 1]
-}
