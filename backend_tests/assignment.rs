@@ -250,3 +250,33 @@ fn skill_mode_accepts_at_most_200_combined_records() {
         Err(AssignmentError::TooManyRecords)
     );
 }
+
+#[test]
+fn skill_mode_requires_named_object_rows_not_positional_records() {
+    let spec = load_assignment_recipe(SKILL_RECIPE).unwrap();
+    let valid: serde_json::Value = serde_json::from_str(SKILL_INPUTS).unwrap();
+
+    for (field, positional) in [
+        ("jobs", json!(["door-west", "Repair door", "Repair"])),
+        (
+            "workers",
+            json!(["tech-1", "Technician", ["Repair"], true, 1]),
+        ),
+    ] {
+        for invalid_row in [positional, json!(null), json!("encoded record")] {
+            let mut input = valid.clone();
+            input[field][0] = invalid_row;
+            assert_eq!(
+                compile_capacity_json(&spec, &input.to_string()),
+                Err(AssignmentError::InvalidField(field.to_owned()))
+            );
+        }
+    }
+
+    assert_eq!(
+        compile_capacity_json(&spec, &valid.to_string())
+            .unwrap()
+            .eligible_workers_by_job,
+        [vec![0], vec![1]]
+    );
+}

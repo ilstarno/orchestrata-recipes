@@ -1,6 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use serde::Deserialize;
+use serde_json::value::RawValue;
 
 use super::{
     AssignmentError, CompiledCapacity, skill_job::SkillJob, skill_match::SkillMatch,
@@ -26,8 +27,8 @@ pub(super) fn compile_skills(
     {
         return Err(AssignmentError::UnexpectedFields);
     }
-    let jobs: Vec<SkillJob> = read_field(&input, jobs_field)?;
-    let workers: Vec<SkillWorker> = read_field(&input, workers_field)?;
+    let jobs: Vec<SkillJob> = read_records(&input, jobs_field)?;
+    let workers: Vec<SkillWorker> = read_records(&input, workers_field)?;
     if jobs.len() + workers.len() > MAX_RECORDS {
         return Err(AssignmentError::TooManyRecords);
     }
@@ -89,14 +90,27 @@ pub(super) fn compile_skills(
     })
 }
 
-fn read_field<'de, T: Deserialize<'de>>(
-    input: &BTreeMap<String, &'de serde_json::value::RawValue>,
+fn read_records<'de, T: Deserialize<'de>>(
+    input: &BTreeMap<String, &'de RawValue>,
     field: &str,
-) -> Result<T, AssignmentError> {
-    let raw = input
+) -> Result<Vec<T>, AssignmentError> {
+    let &raw = input
         .get(field)
         .ok_or_else(|| AssignmentError::MissingField(field.to_owned()))?;
-    serde_json::from_str(raw.get()).map_err(|_| AssignmentError::InvalidField(field.to_owned()))
+    let invalid = || AssignmentError::InvalidField(field.to_owned());
+    let records: Vec<&'de RawValue> = serde_json::from_str(raw.get()).map_err(|_| invalid())?;
+    records
+        .into_iter()
+        .map(|record| {
+            // Serde's derived struct visitor also accepts positional sequences.
+            // Recipe rows are named objects; keep raw JSON for strict keyed decoding.
+            let source = record.get();
+            if !source.trim_start().starts_with('{') {
+                return Err(invalid());
+            }
+            serde_json::from_str(source).map_err(|_| invalid())
+        })
+        .collect()
 }
 
 fn identifier(id: &str) -> bool {
