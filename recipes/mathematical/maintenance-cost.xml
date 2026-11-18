@@ -1,0 +1,11 @@
+<model version="1" id="maintenance">
+  <inputs>
+    <records name="tasks" field="orders"><field name="key" type="id"/></records>
+    <records name="staff" field="crew"><field name="key" type="id"/><field name="slots" type="u32"/><field name="active" type="bool"/></records>
+    <records name="choices" field="options"><field name="task" type="id"/><field name="person" type="id"/><field name="price" type="u32"/><field name="delay" type="u32"/></records>
+  </inputs>
+  <parameters><parameter name="ceiling" type="u32" value="1"/></parameters>
+  <decision name="assignment" kind="reference" items="tasks" resources="staff" domain="choices" item-id="key" resource-id="key" edge-item="task" edge-resource="person" nullable="true"/>
+  <constraints><capacity variable="assignment" field="slots" limit="ceiling"/><availability variable="assignment" field="active" value="true"/></constraints>
+  <objectives order="lexicographic"><maximize variable="assignment" operator="assigned-count"/><minimize variable="assignment" operator="edge-sum" field="price"/></objectives>
+</model>
