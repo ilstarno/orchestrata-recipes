@@ -1,0 +1,14 @@
+{
+  "assigned": 2,
+  "minimized_edge_sum": 1,
+  "assignments": [
+    {
+      "item_id": "repair",
+      "resource_id": "a"
+    },
+    {
+      "item_id": "inspect",
+      "resource_id": "b"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "orders": [
+    {
+      "key": "repair"
+    },
+    {
+      "key": "inspect"
+    }
+  ],
+  "crew": [
+    {
+      "key": "a",
+      "slots": 2,
+      "active": true
+    },
+    {
+      "key": "b",
+      "slots": 2,
+      "active": true
+    }
+  ],
+  "options": [
+    {
+      "task": "repair",
+      "person": "a",
+      "price": 0,
+      "delay": 8
+    },
+    {
+      "task": "repair",
+      "person": "b",
+      "price": 7,
+      "delay": 1
+    },
+    {
+      "task": "inspect",
+      "person": "a",
+      "price": 6,
+      "delay": 0
+    },
+    {
+      "task": "inspect",
+      "person": "b",
+      "price": 1,
+      "delay": 9
+    }
+  ]
+}

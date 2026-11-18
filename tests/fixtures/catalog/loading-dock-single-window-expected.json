@@ -1,0 +1,22 @@
+{
+  "content_identity": "31c3917a9c00912f33615eaf501de524d342b4b65f18af0a1668e5ffc0dafd1e",
+  "execution_identity": "6f2af4221046f3b18cf80a327783b262dd463e2b070e946981ec70e604ecef87",
+  "solution": {
+    "assigned": 3,
+    "assignments": [
+      {
+        "item_id": "refrigerated-inbound",
+        "resource_id": "door-4"
+      },
+      {
+        "item_id": "parcel-outbound",
+        "resource_id": "door-7"
+      },
+      {
+        "item_id": "palletized-transfer",
+        "resource_id": "door-9"
+      }
+    ],
+    "minimized_edge_sum": 0
+  }
+}
