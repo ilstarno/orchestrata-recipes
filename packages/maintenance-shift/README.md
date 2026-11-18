@@ -17,4 +17,4 @@ cmp /tmp/maintenance-shift.orcpkg ../orchestrata-recipes/packages/maintenance-sh
 
 The output path must not exist. Authoring requires Python 3.10+, POSIX and filesystem hard-link support; it validates before atomic no-clobber publication. Edit source models/metadata and rebuild to update the package. Asset digests are refreshed in the packaged manifest without rewriting executable XML.
 
-See [source attribution](PROVENANCE.md). Apache-2.0 terms are retained in English; localized metadata does not translate the license. The `free` tier and author declaration do not prove server authorization or publisher identity. Existing loose XML remains supported; descriptive catalog entries are not automatically executable packages.
+See [source attribution](PROVENANCE.txt). Apache-2.0 terms are retained in English; localized metadata does not translate the license. The `free` tier and author declaration do not prove server authorization or publisher identity. Existing loose XML remains supported; descriptive catalog entries are not automatically executable packages.

@@ -10,4 +10,4 @@ Versioned recipe packages, XML recipe definitions and the Apache-2.0 license.
 
 Use the parsers, solvers, examples and synthetic fixtures in
 [orchestrata-engine](https://github.com/ilstarno/orchestrata-engine).
-See its `docs/recipes-migration.md` for Rust dependency and runner usage.
+See its README for Rust dependency and runner usage.
