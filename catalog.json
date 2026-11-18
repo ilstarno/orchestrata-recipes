@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "field-service",
+      "path": "recipes/executable/field-service/recipe.xml",
+      "kind": "assignment",
+      "inputs": "tests/fixtures/catalog/assignment-inputs.json",
+      "expected": "tests/fixtures/catalog/field-service-expected.json",
+      "entrypoint": null
+    },
+    {
+      "id": "field-service-skills",
+      "path": "recipes/executable/field-service-skills/recipe.xml",
+      "kind": "assignment",
+      "inputs": "tests/fixtures/catalog/skills-inputs.json",
+      "expected": "tests/fixtures/catalog/field-service-skills-expected.json",
+      "entrypoint": null
+    },
+    {
+      "id": "maintenance-cost",
+      "path": "recipes/mathematical/maintenance-cost.xml",
+      "kind": "model",
+      "inputs": "tests/fixtures/catalog/math-inputs.json",
+      "expected": "tests/fixtures/catalog/maintenance-cost-expected.json",
+      "entrypoint": null
+    },
+    {
+      "id": "maintenance-delay",
+      "path": "recipes/mathematical/maintenance-delay.xml",
+      "kind": "model",
+      "inputs": "tests/fixtures/catalog/math-inputs.json",
+      "expected": "tests/fixtures/catalog/maintenance-delay-expected.json",
+      "entrypoint": null
+    },
+    {
+      "id": "maintenance-shift-cost",
+      "path": "packages/maintenance-shift/maintenance-shift.orcpkg",
+      "kind": "package",
+      "inputs": "tests/fixtures/catalog/maintenance-inputs.json",
+      "expected": "tests/fixtures/catalog/maintenance-shift-cost-expected.json",
+      "entrypoint": "cost"
+    },
+    {
+      "id": "maintenance-shift-delay",
+      "path": "packages/maintenance-shift/maintenance-shift.orcpkg",
+      "kind": "package",
+      "inputs": "tests/fixtures/catalog/maintenance-inputs.json",
+      "expected": "tests/fixtures/catalog/maintenance-shift-delay-expected.json",
+      "entrypoint": "delay"
+    },
+    {
+      "id": "loading-dock-single-window",
+      "path": "packages/loading-dock-single-window/loading-dock-single-window.orcpkg",
+      "kind": "package",
+      "inputs": "tests/fixtures/catalog/dock-inputs.json",
+      "expected": "tests/fixtures/catalog/loading-dock-single-window-expected.json",
+      "entrypoint": "allocate"
+    }
+  ],
+  "generators": [
+    "recipes/benchmarks/new-york.xml",
+    "recipes/benchmarks/rome.xml",
+    "recipes/benchmarks/tirana.xml"
+  ]
+}

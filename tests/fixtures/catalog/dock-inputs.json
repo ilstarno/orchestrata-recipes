@@ -1,0 +1,62 @@
+{
+  "trailers": [
+    {
+      "id": "refrigerated-inbound"
+    },
+    {
+      "id": "parcel-outbound"
+    },
+    {
+      "id": "palletized-transfer"
+    }
+  ],
+  "doors": [
+    {
+      "id": "door-4",
+      "capacity": 1,
+      "available": true
+    },
+    {
+      "id": "door-7",
+      "capacity": 1,
+      "available": true
+    },
+    {
+      "id": "door-9",
+      "capacity": 1,
+      "available": true
+    }
+  ],
+  "compatibility": [
+    {
+      "trailer_id": "refrigerated-inbound",
+      "door_id": "door-4",
+      "avoidance_penalty": 0
+    },
+    {
+      "trailer_id": "refrigerated-inbound",
+      "door_id": "door-7",
+      "avoidance_penalty": 0
+    },
+    {
+      "trailer_id": "parcel-outbound",
+      "door_id": "door-7",
+      "avoidance_penalty": 0
+    },
+    {
+      "trailer_id": "parcel-outbound",
+      "door_id": "door-9",
+      "avoidance_penalty": 5
+    },
+    {
+      "trailer_id": "palletized-transfer",
+      "door_id": "door-4",
+      "avoidance_penalty": 0
+    },
+    {
+      "trailer_id": "palletized-transfer",
+      "door_id": "door-9",
+      "avoidance_penalty": 0
+    }
+  ]
+}

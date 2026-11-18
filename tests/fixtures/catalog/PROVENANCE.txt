@@ -1,0 +1,15 @@
+Synthetic catalog acceptance examples
+
+The assignment, skills and mathematical input fixtures adapt fixtures from
+ilstarno/orchestrata-engine commit 693dc86fa3afcfefb8583550fc970657ecbf4a0a:
+crates/recipe-runtime/tests/fixtures/recipes/executable/field-service/inputs.json
+crates/recipe-runtime/tests/fixtures/recipes/executable/field-service-skills/inputs.json
+crates/recipe-runtime/tests/fixtures/math/records.json
+
+The maintenance inputs use that revision's examples/maintenance-package/inputs.json.
+The dock inputs use this repository's tests/verify_loading_dock.py synthetic case.
+Expected results record execution with the same Engine revision. The descriptive
+XML is a deliberately non-executable rejection fixture, not a catalog offering.
+
+The repository's Apache-2.0 terms apply. Existing attribution and license terms
+are retained; these examples do not assert a new copyright owner or entitlement.
