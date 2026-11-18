@@ -1,0 +1,5 @@
+# Source and license
+
+These maintenance assignment models adapt the mathematical XML assignment syntax and maintenance model structure in [ilstarno/orchestrata-engine](https://github.com/ilstarno/orchestrata-engine), commit `1dbf7fc04bf19312d3ff61913df4dfe1d6788cd5`, under Apache-2.0. Original runtime source history records the GitHub author `ilstarno`; the Engine and Recipes repositories are maintained under that account. The manifest retains that source-author attribution; it does not verify a natural person, legal entity or server identity.
+
+Changes for this package introduce shift-capacity bindings, explicit cost-cent/delay-minute fields, a three-order ceiling, localized metadata and package inventory. The accompanying twelve-order workload is synthetic. Apache-2.0 terms are retained in full as English text in `source/legal/terms.xml`; the repository LICENSE also applies. No upstream NOTICE file was present at the cited Engine revision. No existing copyright notices were removed and no new owner or license is asserted. Albanian display text is not a license translation.
