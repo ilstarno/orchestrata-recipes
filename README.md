@@ -1,7 +1,8 @@
 # Orchestrata recipes
 
-XML recipe definitions and the Apache-2.0 license.
+Versioned recipe packages, XML recipe definitions and the Apache-2.0 license.
 
+- `packages/maintenance-shift/`: runnable multi-model package, deterministic source rebuild and usage.
 - `recipes/mathematical/`: executable bounded assignment models, version 1.
 - `recipes/executable/`: executable assignment contracts, versions 1 and 2.
 - Other recipe XML describes catalog inputs and outputs; prose is not executable mathematics.
