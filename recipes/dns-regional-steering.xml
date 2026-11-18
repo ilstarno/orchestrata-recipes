@@ -19,7 +19,7 @@
       <description>Rows of market ID, allowed edge region, priority tier, and desired integer share. Select the first tier with eligible regions and normalize shares to 100 within that tier. Do not fall back outside the market allowlist.</description>
     </field>
     <field name="regional-fault-domains" type="integer" required="true">
-      <description>Minimum number of distinct healthy backend fault domains required for a region to receive new DNS lookups. Edge health, backend fault domains, and the market allowlist are separate checks.</description>
+      <description>Minimum number of distinct healthy service fault domains required for a region to receive new DNS lookups. Edge health, service fault domains, and the market allowlist are separate checks.</description>
     </field>
     <field name="endpoint-health" type="string-list" required="true">
       <description>Rows of endpoint ID, state (healthy, down, draining, stale, or unknown), distinct healthy fault domains, and UTC observation time. Missing health or health older than the configured limit is not eligible for a recommendation.</description>

@@ -1,28 +1,12 @@
 # Orchestrata recipes
 
-Browse the [planning examples](recipes/README.md) for small, fictional scheduling problems. Each example includes XML metadata and a normalized input for an Orchestrata solver, plus an expected result for comparison.
+XML recipe definitions and the Apache-2.0 license.
 
-Run the recipe tests or generate synthetic fleet stops from this checkout:
+- `recipes/mathematical/`: executable bounded assignment models, version 1.
+- `recipes/executable/`: executable assignment contracts, versions 1 and 2.
+- Other recipe XML describes catalog inputs and outputs; prose is not executable mathematics.
+- `recipes/benchmarks/`: bounded synthetic workload configurations.
 
-```sh
-cargo test --workspace --all-targets
-cargo run -p orchestrata-recipes --example fleet_benchmark -- recipes/benchmarks/new-york.xml --csv > new-york-stops.csv
-```
-
-The [fleet workloads](recipes/benchmarks/README.md) generate inputs only. They do not solve routes or estimate travel times. To solve a planning example, supply its `problem.json` to an installed Orchestrata CLI or running solve API.
-
-For interview scheduling, interviewer absence recovery, and recruiting
-coordinator handoffs, see [Hiring operations recipes](docs/hiring-operations.md).
-
-For advisory DNS steering, backend allocation, and rollout gates, see
-[Traffic planning recipes](docs/traffic-planning.md).
-
-For payment exceptions and claims-work scheduling without transaction or
-eligibility decisions, see [Financial operations recipes](docs/financial-operations.md).
-
-## Run a recipe directly
-
-The [executable field-service recipe](recipes/executable/README.md) reads an
-XML assignment rule and named JSON inputs, then returns a plan. Other recipe
-XML files in this repository describe examples that still run through their
-checked-in JSON problems.
+Use the parsers, solvers, examples and synthetic fixtures in
+[orchestrata-engine](https://github.com/ilstarno/orchestrata-engine).
+See its `docs/recipes-migration.md` for Rust dependency and runner usage.
