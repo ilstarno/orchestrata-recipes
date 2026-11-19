@@ -24,7 +24,7 @@ def main():
     parser.add_argument("--engine-bin-dir", type=Path, required=True)
     args = parser.parse_args()
     bins = args.engine_bin_dir.resolve()
-    assert len(catalog.validate(ROOT, bins)) == 7
+    assert len(catalog.validate(ROOT, bins)) == 10
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory) / "catalog"
         shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns(".git", "__pycache__"))
@@ -42,7 +42,7 @@ def main():
         expected = root / "tests/fixtures/catalog/loading-dock-single-window-expected.json"
         expected.write_text("{}")
         rejected(root, bins)
-    print("PASS: seven native executions, descriptive XML rejection, missing runtime, corrupt package and incorrect result rejection.")
+    print("PASS: ten native executions, descriptive XML rejection, missing runtime, corrupt package and incorrect result rejection.")
 
 
 if __name__ == "__main__":

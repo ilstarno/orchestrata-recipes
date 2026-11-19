@@ -1,0 +1,22 @@
+<recipe-package format-version="1" id="loading-dock-single-window" version="1.0.1" default-locale="en" default-entrypoint="allocate">
+  <author>ilstarno</author>
+  <license expression="Apache-2.0" terms="legal/terms.xml" />
+  <distribution tier="free" />
+  <translations>
+    <translation locale="en">
+      <title>Loading door allocation</title>
+      <description>For one given time window, assign overlapping trailers to compatible available doors. Maximize assigned trailers and then minimize the penalties supplied for using less suitable doors. Does not schedule arrival times.</description>
+    </translation>
+    <translation locale="sq">
+      <title>Caktimi i portave të ngarkimit</title>
+      <description>Për një interval të caktuar, caktoni për çdo rimorkio një portë të përshtatshme dhe të lirë. Caktoni sa më shumë rimorkio, pastaj minimizoni penalitetet e dhëna për portat më pak të përshtatshme. Nuk cakton oraret e mbërritjes.</description>
+    </translation>
+  </translations>
+  <assets>
+    <asset path="legal/terms.xml" kind="terms" bytes="11409" sha256="5a89b0d01c6c8e433d966f2b17741059e33300444cc959354e043788706419c2" />
+    <asset path="models/door-allocation.xml" kind="model" bytes="1240" sha256="408efa9b382c514178236b8f41b986f46751d20838783d7f8966623263467cf2" />
+  </assets>
+  <entrypoints>
+    <entrypoint id="allocate" model="models/door-allocation.xml" />
+  </entrypoints>
+</recipe-package>

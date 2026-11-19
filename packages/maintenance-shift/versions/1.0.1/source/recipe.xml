@@ -1,0 +1,24 @@
+<recipe-package format-version="1" id="maintenance-shift" version="1.0.1" default-locale="en" default-entrypoint="cost">
+  <author>ilstarno</author>
+  <license expression="Apache-2.0" terms="legal/terms.xml" />
+  <distribution tier="free" />
+  <translations>
+    <translation locale="en">
+      <title>Maintenance shift allocation</title>
+      <description>Allocate eligible technicians to maintenance orders within shift capacity. Maximize coverage, then minimize cost in cents or total delay in minutes.</description>
+    </translation>
+    <translation locale="sq">
+      <title>Caktimi i punëve të mirëmbajtjes gjatë turnit</title>
+      <description>Caktoni teknikët e kualifikuar për punët e mirëmbajtjes brenda kapacitetit të turnit. Maksimizoni mbulimin dhe pastaj minimizoni koston në cent ose vonesën totale në minuta.</description>
+    </translation>
+  </translations>
+  <assets>
+    <asset path="legal/terms.xml" kind="terms" bytes="11409" sha256="5a89b0d01c6c8e433d966f2b17741059e33300444cc959354e043788706419c2" />
+    <asset path="models/cost.xml" kind="model" bytes="1301" sha256="9c35128b8c44e0f502e8b3bf1a01809582eb94013a6a921c72f4d6e9d9f3b674" />
+    <asset path="models/delay.xml" kind="model" bytes="1304" sha256="34ed9b0c7a64624e31b7c564ab867db4e6f1fed2042a90f06344b3557ef5204e" />
+  </assets>
+  <entrypoints>
+    <entrypoint id="cost" model="models/cost.xml" />
+    <entrypoint id="delay" model="models/delay.xml" />
+  </entrypoints>
+</recipe-package>

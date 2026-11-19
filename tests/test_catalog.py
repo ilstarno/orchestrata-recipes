@@ -24,10 +24,10 @@ class Catalog(unittest.TestCase):
         fn(data)
         path.write_text(json.dumps(data))
 
-    def test_inventory_has_seven_executions_and_two_packages(self):
+    def test_inventory_has_ten_executions_and_four_revisions(self):
         entries = catalog.inventory(self.root)
-        self.assertEqual(len(entries), 7)
-        self.assertEqual(len({e["path"] for e in entries if e["kind"] == "package"}), 2)
+        self.assertEqual(len(entries), 10)
+        self.assertEqual(len({e["path"] for e in entries if e["kind"] == "package"}), 4)
 
     def test_no_runtime_means_no_accepted_catalog(self):
         with self.assertRaisesRegex(ValueError, "runtime unavailable"):
