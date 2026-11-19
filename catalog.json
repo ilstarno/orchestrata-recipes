@@ -56,6 +56,30 @@
       "inputs": "tests/fixtures/catalog/dock-inputs.json",
       "expected": "tests/fixtures/catalog/loading-dock-single-window-expected.json",
       "entrypoint": "allocate"
+    },
+    {
+      "id": "maintenance-shift-cost-1.0.1",
+      "path": "packages/maintenance-shift/versions/1.0.1/maintenance-shift.orcpkg",
+      "kind": "package",
+      "inputs": "tests/fixtures/catalog/maintenance-inputs.json",
+      "expected": "tests/fixtures/catalog/maintenance-shift-cost-1.0.1-expected.json",
+      "entrypoint": "cost"
+    },
+    {
+      "id": "maintenance-shift-delay-1.0.1",
+      "path": "packages/maintenance-shift/versions/1.0.1/maintenance-shift.orcpkg",
+      "kind": "package",
+      "inputs": "tests/fixtures/catalog/maintenance-inputs.json",
+      "expected": "tests/fixtures/catalog/maintenance-shift-delay-1.0.1-expected.json",
+      "entrypoint": "delay"
+    },
+    {
+      "id": "loading-dock-single-window-1.0.1",
+      "path": "packages/loading-dock-single-window/versions/1.0.1/loading-dock-single-window.orcpkg",
+      "kind": "package",
+      "inputs": "tests/fixtures/catalog/dock-inputs.json",
+      "expected": "tests/fixtures/catalog/loading-dock-single-window-1.0.1-expected.json",
+      "entrypoint": "allocate"
     }
   ],
   "generators": [

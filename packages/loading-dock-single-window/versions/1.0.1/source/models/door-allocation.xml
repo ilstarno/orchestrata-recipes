@@ -1,0 +1,29 @@
+<model version="1" id="loading-dock-single-window">
+  <inputs>
+    <records name="items" field="trailers">
+      <field name="id" type="id"/>
+    </records>
+    <records name="resources" field="doors">
+      <field name="id" type="id"/>
+      <field name="capacity" type="u32"/>
+      <field name="available" type="bool"/>
+    </records>
+    <records name="options" field="compatibility">
+      <field name="trailer_id" type="id"/>
+      <field name="door_id" type="id"/>
+      <field name="avoidance_penalty" type="u32"/>
+    </records>
+  </inputs>
+  <parameters>
+    <parameter name="one-door-per-window" type="u32" value="1"/>
+  </parameters>
+  <decision name="allocation" kind="reference" items="items" resources="resources" domain="options" item-id="id" resource-id="id" edge-item="trailer_id" edge-resource="door_id" nullable="true"/>
+  <constraints>
+    <capacity variable="allocation" field="capacity" limit="one-door-per-window"/>
+    <availability variable="allocation" field="available" value="true"/>
+  </constraints>
+  <objectives order="lexicographic">
+    <maximize variable="allocation" operator="assigned-count"/>
+    <minimize variable="allocation" operator="edge-sum" field="avoidance_penalty"/>
+  </objectives>
+</model>

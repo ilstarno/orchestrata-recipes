@@ -1,0 +1,30 @@
+<model version="1" id="maintenance-shift">
+  <inputs>
+    <records name="orders" field="work_orders">
+      <field name="id" type="id"/>
+    </records>
+    <records name="crew" field="technicians">
+      <field name="id" type="id"/>
+      <field name="capacity_slots" type="u32"/>
+      <field name="available" type="bool"/>
+    </records>
+    <records name="edges" field="eligibility">
+      <field name="work_order_id" type="id"/>
+      <field name="technician_id" type="id"/>
+      <field name="cost_cents" type="u32"/>
+      <field name="delay_minutes" type="u32"/>
+    </records>
+  </inputs>
+  <parameters>
+    <parameter name="max-orders-per-technician" type="u32" value="3"/>
+  </parameters>
+  <decision name="assignment" kind="reference" items="orders" resources="crew" domain="edges" item-id="id" resource-id="id" edge-item="work_order_id" edge-resource="technician_id" nullable="true"/>
+  <constraints>
+    <capacity variable="assignment" field="capacity_slots" limit="max-orders-per-technician"/>
+    <availability variable="assignment" field="available" value="true"/>
+  </constraints>
+  <objectives order="lexicographic">
+    <maximize variable="assignment" operator="assigned-count"/>
+    <minimize variable="assignment" operator="edge-sum" field="delay_minutes"/>
+  </objectives>
+</model>

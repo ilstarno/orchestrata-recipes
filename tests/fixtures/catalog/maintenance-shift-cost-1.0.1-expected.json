@@ -1,0 +1,58 @@
+{
+  "content_identity": "b654c017f91ff8d17357039c387470909e09518772925f229882464a47730eb3",
+  "execution_identity": "dbeebaaea2b8e9ba665604c6d0482d2a35a88a1e97f0559a294cf64d86eee076",
+  "solution": {
+    "assigned": 10,
+    "assignments": [
+      {
+        "item_id": "pump-a",
+        "resource_id": "mechanical-west"
+      },
+      {
+        "item_id": "pump-b",
+        "resource_id": "mechanical-west"
+      },
+      {
+        "item_id": "cooling-loop",
+        "resource_id": "mechanical-east"
+      },
+      {
+        "item_id": "compressor",
+        "resource_id": "mechanical-east"
+      },
+      {
+        "item_id": "valve-bank",
+        "resource_id": "mechanical-east"
+      },
+      {
+        "item_id": "fire-panel",
+        "resource_id": "safety"
+      },
+      {
+        "item_id": "alarm-loop",
+        "resource_id": "safety"
+      },
+      {
+        "item_id": "meter-a",
+        "resource_id": "instrumentation"
+      },
+      {
+        "item_id": "meter-b",
+        "resource_id": "instrumentation"
+      },
+      {
+        "item_id": "hv-isolator",
+        "resource_id": null
+      },
+      {
+        "item_id": "lift-controller",
+        "resource_id": null
+      },
+      {
+        "item_id": "inspection",
+        "resource_id": "general"
+      }
+    ],
+    "minimized_edge_sum": 14600
+  }
+}
